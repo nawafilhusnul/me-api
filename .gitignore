@@ -1,2 +1,6 @@
 tmp
 .idea
+
+.env
+
+config.json
