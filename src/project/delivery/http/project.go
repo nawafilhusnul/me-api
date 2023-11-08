@@ -20,9 +20,12 @@ func NewProjectHandler(g *gin.Engine, ps domain.ProjectUsecase) {
 	h := &ProjectHandler{
 		PUsecase: ps,
 	}
-	g.POST("/projects", h.Create)
-	g.PUT("/projects/:id", h.Update)
-	g.DELETE("/projects/:id", h.Delete)
+	v1 := g.Group("v1")
+	{
+		v1.POST("/projects", h.Create)
+		v1.PUT("/projects/:id", h.Update)
+		v1.DELETE("/projects/:id", h.Delete)
+	}
 }
 
 func (a *ProjectHandler) Create(c *gin.Context) {
