@@ -33,7 +33,7 @@ func init() {
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host petstore.swagger.io:8080
+// @host http://localhost:8080
 // @BasePath /v1
 func main() {
 	r := gin.Default()
