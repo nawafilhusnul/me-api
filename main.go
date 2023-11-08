@@ -2,11 +2,9 @@ package main
 
 import (
 	"context"
-	"log"
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 	_projecthandler "github.com/nawafilhusnul/me-dashboard-api/src/project/delivery/http"
 	_projectrepo "github.com/nawafilhusnul/me-dashboard-api/src/project/repository/firestore"
 	_projectusecase "github.com/nawafilhusnul/me-dashboard-api/src/project/usecase"
@@ -23,10 +21,6 @@ func init() {
 }
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
 	r := gin.Default()
 	fs := utilsfirebase.FirestoreClient(context.Background())
 	pr := _projectrepo.NewFirestoreProjectRepository(fs)
