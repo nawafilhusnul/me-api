@@ -20,6 +20,21 @@ func init() {
 	}
 }
 
+//
+// @title Me Dashboard API
+// @version 1.0
+// @description This is the APIs for dashboard used to manage me UI.
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name API Support
+// @contact.url http://www.swagger.io/support
+// @contact.email support@swagger.io
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host petstore.swagger.io:8080
+// @BasePath /v1
 func main() {
 	r := gin.Default()
 	fs := utilsfirebase.FirestoreClient(context.Background())
@@ -33,5 +48,9 @@ func main() {
 			"message": "pong",
 		})
 	})
+
+	r.StaticFile("/docs", "./docs/public/index.html")
+	r.StaticFile("/swagger.json", "./docs/public/swagger.json")
+
 	r.Run()
 }

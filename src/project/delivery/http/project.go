@@ -47,6 +47,15 @@ func (a *ProjectHandler) Create(c *gin.Context) {
 	c.JSON(http.StatusCreated, MetaResponse{Message: domain.POSTSuccess})
 }
 
+// @Description update project detail by ID
+// @Accept  json
+// @Produce  json
+// @Tags	Projects
+// @Param   id     path    string     true        "Project ID"
+// @Success 200 {object} MetaResponse
+// @Failure 400 {object} MetaResponse
+// @Failure 404 {object} MetaResponse
+// @Router /projects/{id} [put]
 func (a *ProjectHandler) Update(c *gin.Context) {
 	var req domain.ProjectRequest
 	err := c.ShouldBind(&req)
@@ -76,6 +85,15 @@ func (a *ProjectHandler) Update(c *gin.Context) {
 	c.JSON(http.StatusCreated, MetaResponse{Message: domain.PUTSuccess})
 }
 
+// @Description delete project detail by ID
+// @Accept  json
+// @Produce  json
+// @Tags	Projects
+// @Param   id     path    string     true        "Project ID"
+// @Success 200 {object} MetaResponse
+// @Failure 400 {object} MetaResponse
+// @Failure 404 {object} MetaResponse
+// @Router /projects/{id} [delete]
 func (a *ProjectHandler) Delete(c *gin.Context) {
 	id := c.Param("id")
 	ctx := c.Request.Context()

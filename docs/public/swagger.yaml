@@ -1,0 +1,77 @@
+basePath: /v1
+definitions:
+  http.MetaResponse:
+    properties:
+      message:
+        type: string
+    type: object
+host: petstore.swagger.io:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is the APIs for dashboard used to manage me UI.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Me Dashboard API
+  version: "1.0"
+paths:
+  /projects/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete project detail by ID
+      parameters:
+      - description: Project ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.MetaResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.MetaResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.MetaResponse'
+      tags:
+      - Projects
+    put:
+      consumes:
+      - application/json
+      description: update project detail by ID
+      parameters:
+      - description: Project ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.MetaResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.MetaResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.MetaResponse'
+      tags:
+      - Projects
+swagger: "2.0"
