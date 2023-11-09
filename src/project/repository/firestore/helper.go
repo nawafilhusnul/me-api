@@ -1,8 +1,14 @@
 package firestore
 
 import (
+	"time"
+
 	"cloud.google.com/go/firestore"
 	"github.com/nawafilhusnul/me-dashboard-api/src/domain"
+)
+
+var (
+	ZeroTime = time.Date(1, 1, 1, 0, 0, 0, 0, &time.Location{})
 )
 
 func getUpdateFields(p *domain.Project) []firestore.Update {

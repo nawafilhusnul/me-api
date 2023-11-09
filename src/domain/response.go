@@ -6,3 +6,7 @@ const (
 	DELETESuccess = "item successfully deleted"
 	POSTSuccess   = "item successfully created"
 )
+
+type MetaResponse struct {
+	Message string `json:"message"`
+}

@@ -6,6 +6,7 @@ import (
 
 	"cloud.google.com/go/firestore"
 	"github.com/nawafilhusnul/me-dashboard-api/src/domain"
+	"google.golang.org/api/iterator"
 )
 
 type firestoreProjectRepository struct {
@@ -23,6 +24,32 @@ func (pu *firestoreProjectRepository) First(ctx context.Context, id string) (dom
 
 func (pu *firestoreProjectRepository) Find(ctx context.Context) ([]domain.Project, error) {
 	var p = []domain.Project{}
+	q := pu.Conn.Collection("projects")
+	i := q.Documents(ctx)
+
+	for {
+		temp := domain.Project{}
+		doc, err := i.Next()
+		if err == iterator.Done {
+			break
+		}
+
+		if err != nil {
+			return p, err
+		}
+
+		err = doc.DataTo(&temp)
+		if err != nil {
+			return p, err
+		}
+
+		if temp.IsDeleted {
+			continue
+		}
+
+		p = append(p, temp)
+	}
+
 	return p, nil
 }
 
@@ -62,6 +89,9 @@ func (pu *firestoreProjectRepository) Delete(ctx context.Context, id string) err
 		return t.Update(ref, []firestore.Update{
 			{
 				Path: "deleted_at", Value: time.Now(),
+			},
+			{
+				Path: "is_deleted", Value: true,
 			},
 		})
 	})

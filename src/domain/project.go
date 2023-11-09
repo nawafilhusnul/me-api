@@ -12,13 +12,23 @@ type ProjectRequest struct {
 	TechStacks  []TechStack `json:"tech_stacks,omitempty"`
 }
 
-type ProjectResponse struct {
+type ProjectDTO struct {
 	ID          string      `json:"id"`
 	Title       string      `json:"title"`
 	Description string      `json:"description,omitempty"`
 	TechStacks  []TechStack `json:"tech_stacks,omitempty"`
 	CreatedAt   time.Time   `json:"created_at,omitempty"`
 	UpdatedAt   time.Time   `json:"updated_at,omitempty"`
+}
+
+type ProjectListResponse struct {
+	Meta MetaResponse `json:"meta"`
+	Data []ProjectDTO `json:"data"`
+}
+
+type ProjectResponse struct {
+	Meta MetaResponse `json:"meta"`
+	Data *ProjectDTO  `json:"data"`
 }
 
 type Project struct {
@@ -28,6 +38,8 @@ type Project struct {
 	TechStacks  []TechStack `firestore:"tech_stacks,omitempty"`
 	UpdatedAt   time.Time   `firestore:"updated_at"`
 	CreatedAt   time.Time   `firestore:"created_at"`
+	DeletedAt   time.Time   `firestore:"deleted_at,omitempty"`
+	IsDeleted   bool        `firestore:"is_deleted,omitempty"`
 }
 
 type ProjectUsecase interface {
@@ -52,7 +64,7 @@ func (p *Project) BindFromReq(r ProjectRequest) {
 	p.TechStacks = r.TechStacks
 }
 
-func (p *Project) BindToRes(r *ProjectResponse) {
+func (p *Project) BindToRes(r *ProjectDTO) {
 	r.ID = p.ID
 	r.Title = p.Title
 	r.Description = p.Description

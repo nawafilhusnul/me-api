@@ -25,8 +25,12 @@ func (pu *projectUsecase) First(ctx context.Context, id string) (domain.Project,
 }
 
 func (pu *projectUsecase) Find(ctx context.Context) ([]domain.Project, error) {
-	var p = []domain.Project{}
-	return p, nil
+	pl, err := pu.projectRepo.Find(ctx)
+	if err != nil {
+		return pl, err
+	}
+
+	return pl, nil
 }
 
 func (pu *projectUsecase) Update(ctx context.Context, p *domain.Project) error {
