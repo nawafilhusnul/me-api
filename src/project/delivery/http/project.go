@@ -28,6 +28,15 @@ func NewProjectHandler(g *gin.Engine, ps domain.ProjectUsecase) {
 	}
 }
 
+// @Description create a new project
+// @Accept  json
+// @Produce  json
+// @Tags	Projects
+// @Param	body	body		domain.ProjectRequest	true	"Project detail"
+// @Success 200 {object} MetaResponse
+// @Failure 400 {object} MetaResponse
+// @Failure 404 {object} MetaResponse
+// @Router /projects/{id} [post]
 func (a *ProjectHandler) Create(c *gin.Context) {
 	var req domain.ProjectRequest
 
@@ -55,6 +64,7 @@ func (a *ProjectHandler) Create(c *gin.Context) {
 // @Produce  json
 // @Tags	Projects
 // @Param   id     path    string     true        "Project ID"
+// @Param	body	body		domain.ProjectRequest	true	"Project detail"
 // @Success 200 {object} MetaResponse
 // @Failure 400 {object} MetaResponse
 // @Failure 404 {object} MetaResponse

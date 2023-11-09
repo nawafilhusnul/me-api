@@ -1,11 +1,41 @@
 basePath: /v1
 definitions:
+  domain.ProjectRequest:
+    properties:
+      description:
+        type: string
+      id:
+        type: string
+      tech_stacks:
+        items:
+          $ref: '#/definitions/domain.TechStack'
+        type: array
+      title:
+        type: string
+    required:
+    - title
+    type: object
+  domain.TechStack:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      logo_url:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
   http.MetaResponse:
     properties:
       message:
         type: string
     type: object
-host: petstore.swagger.io:8080
+host: http://localhost:8080
 info:
   contact:
     email: support@swagger.io
@@ -47,6 +77,34 @@ paths:
             $ref: '#/definitions/http.MetaResponse'
       tags:
       - Projects
+    post:
+      consumes:
+      - application/json
+      description: create a new project
+      parameters:
+      - description: Project detail
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.ProjectRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.MetaResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.MetaResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.MetaResponse'
+      tags:
+      - Projects
     put:
       consumes:
       - application/json
@@ -57,6 +115,12 @@ paths:
         name: id
         required: true
         type: string
+      - description: Project detail
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.ProjectRequest'
       produces:
       - application/json
       responses:
