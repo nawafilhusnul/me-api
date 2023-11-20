@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"github.com/gin-contrib/cors"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -37,6 +38,13 @@ func init() {
 // @BasePath /v1
 func main() {
 	r := gin.Default()
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"PUT", "PATCH", "GET", "POST"},
+		AllowHeaders:     []string{"Origin"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}))
 	fs := utilsfirebase.FirestoreClient(context.Background())
 	pr := _projectrepo.NewFirestoreProjectRepository(fs)
 	timeoutContext := time.Duration(viper.GetInt("context.timeout")) * time.Second
