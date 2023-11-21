@@ -135,7 +135,7 @@ func (a *ProjectHandler) Find(c *gin.Context) {
 		pl[idx].BindToRes(&res[idx])
 	}
 
-	c.JSON(http.StatusCreated, domain.ProjectListResponse{
+	c.JSON(http.StatusOK, domain.ProjectListResponse{
 		Meta: domain.MetaResponse{
 			Message: domain.GETSuccess,
 		},

@@ -15,6 +15,7 @@ type ProjectRequest struct {
 type ProjectDTO struct {
 	ID          string      `json:"id"`
 	Title       string      `json:"title"`
+	Photos      []string    `json:"photos,omitempty"`
 	Description string      `json:"description,omitempty"`
 	TechStacks  []TechStack `json:"tech_stacks,omitempty"`
 	CreatedAt   time.Time   `json:"created_at,omitempty"`
