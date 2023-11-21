@@ -1,5 +1,40 @@
 basePath: /v1
 definitions:
+  domain.MetaResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  domain.ProjectDTO:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      photos:
+        items:
+          type: string
+        type: array
+      tech_stacks:
+        items:
+          $ref: '#/definitions/domain.TechStack'
+        type: array
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  domain.ProjectListResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/domain.ProjectDTO'
+        type: array
+      meta:
+        $ref: '#/definitions/domain.MetaResponse'
+    type: object
   domain.ProjectRequest:
     properties:
       description:
@@ -30,11 +65,6 @@ definitions:
       updated_at:
         type: string
     type: object
-  http.MetaResponse:
-    properties:
-      message:
-        type: string
-    type: object
 host: http://localhost:8080
 info:
   contact:
@@ -49,34 +79,7 @@ info:
   title: Me Dashboard API
   version: "1.0"
 paths:
-  /projects/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: delete project detail by ID
-      parameters:
-      - description: Project ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/http.MetaResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/http.MetaResponse'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/http.MetaResponse'
-      tags:
-      - Projects
+  /projects:
     post:
       consumes:
       - application/json
@@ -94,15 +97,65 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/http.MetaResponse'
+            $ref: '#/definitions/domain.MetaResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/http.MetaResponse'
+            $ref: '#/definitions/domain.MetaResponse'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/http.MetaResponse'
+            $ref: '#/definitions/domain.MetaResponse'
+      tags:
+      - Projects
+  /projects/:
+    get:
+      consumes:
+      - application/json
+      description: create a new project
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.ProjectListResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.MetaResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/domain.MetaResponse'
+      tags:
+      - Projects
+  /projects/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete project detail by ID
+      parameters:
+      - description: Project ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.MetaResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.MetaResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/domain.MetaResponse'
       tags:
       - Projects
     put:
@@ -127,15 +180,15 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/http.MetaResponse'
+            $ref: '#/definitions/domain.MetaResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/http.MetaResponse'
+            $ref: '#/definitions/domain.MetaResponse'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/http.MetaResponse'
+            $ref: '#/definitions/domain.MetaResponse'
       tags:
       - Projects
 swagger: "2.0"
