@@ -4,3 +4,5 @@ tmp
 .env
 
 config.json
+
+main
