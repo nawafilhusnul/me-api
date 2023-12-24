@@ -1,20 +1,20 @@
 package main
 
 import (
-	"context"
-	"github.com/gin-contrib/cors"
-	"github.com/joho/godotenv"
 	"log"
 	"os"
 	"path/filepath"
 	"strconv"
 	"time"
 
+	"github.com/gin-contrib/cors"
+	"github.com/joho/godotenv"
+
 	"github.com/gin-gonic/gin"
 	_projecthandler "github.com/nawafilhusnul/me-dashboard-api/src/project/delivery/http"
-	_projectrepo "github.com/nawafilhusnul/me-dashboard-api/src/project/repository/firestore"
+	_projectrepo "github.com/nawafilhusnul/me-dashboard-api/src/project/repository/mysql"
 	_projectusecase "github.com/nawafilhusnul/me-dashboard-api/src/project/usecase"
-	utilsfirebase "github.com/nawafilhusnul/me-dashboard-api/utils/firebase"
+	utils "github.com/nawafilhusnul/me-dashboard-api/utils/mysql"
 )
 
 //
@@ -50,8 +50,9 @@ func main() {
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 	}))
-	fs := utilsfirebase.FirestoreClient(context.Background())
-	pr := _projectrepo.NewFirestoreProjectRepository(fs)
+
+	gormDb := utils.GormClient()
+	pr := _projectrepo.NewProjectRepository(gormDb)
 
 	timeout, err := strconv.Atoi(os.Getenv("CONTEXT_TIMEOUT"))
 	if err != nil {
