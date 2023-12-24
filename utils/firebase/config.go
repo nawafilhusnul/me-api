@@ -6,11 +6,11 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"os"
 	"strings"
 
 	"cloud.google.com/go/firestore"
 	firebase "firebase.google.com/go"
-	"github.com/spf13/viper"
 	"google.golang.org/api/option"
 )
 
@@ -45,16 +45,16 @@ func NewApp(ctx context.Context) *firebase.App {
 
 func getConfigJSON() ([]byte, error) {
 	var (
-		FIREBASE_TYPE                        = viper.GetString("firebase.type")
-		FIREBASE_PROJECT_ID                  = viper.GetString("firebase.project_id")
-		FIREBASE_PRIVATE_KEY_ID              = viper.GetString("firebase.private_key_id")
-		FIREBASE_PRIVATE_KEY                 = fmt.Sprintf("-----BEGIN PRIVATE KEY-----\n%s\n-----END PRIVATE KEY-----\n", viper.GetString("firebase.private_key"))
-		FIREBASE_CLIENT_EMAIL                = viper.GetString("firebase.client_email")
-		FIREBASE_CLIENT_ID                   = viper.GetString("firebase.client_id")
-		FIREBASE_AUTH_URI                    = viper.GetString("firebase.auth_uri")
-		FIREBASE_TOKEN_URI                   = viper.GetString("firebase.token_uri")
-		FIREBASE_AUTH_PROVIDER_X509_CERT_URL = viper.GetString("firebase.auth_provider_x509_cert_url")
-		FIREBASE_CLIENT_X509_CERT_URL        = viper.GetString("firebase.client_x509_cert_url")
+		FIREBASE_TYPE                        = os.Getenv("FIREBASE_TYPE")
+		FIREBASE_PROJECT_ID                  = os.Getenv("FIREBASE_PROJECT_ID")
+		FIREBASE_PRIVATE_KEY_ID              = os.Getenv("FIREBASE_PRIVATE_KEY_ID")
+		FIREBASE_PRIVATE_KEY                 = fmt.Sprintf("-----BEGIN PRIVATE KEY-----\n%s\n-----END PRIVATE KEY-----\n", os.Getenv("FIREBASE_PRIVATE_KEY"))
+		FIREBASE_CLIENT_EMAIL                = os.Getenv("FIREBASE_CLIENT_EMAIL")
+		FIREBASE_CLIENT_ID                   = os.Getenv("FIREBASE_CLIENT_ID")
+		FIREBASE_AUTH_URI                    = os.Getenv("FIREBASE_AUTH_URI")
+		FIREBASE_TOKEN_URI                   = os.Getenv("FIREBASE_TOKEN_URI")
+		FIREBASE_AUTH_PROVIDER_X509_CERT_URL = os.Getenv("FIREBASE_AUTH_PROVIDER_X509_CERT_URL")
+		FIREBASE_CLIENT_X509_CERT_URL        = os.Getenv("FIREBASE_CLIENT_X509_CERT_URL")
 	)
 	conf := firebaseConfig{
 		TYPE:                        FIREBASE_TYPE,

@@ -37,6 +37,7 @@ type Project struct {
 	Title       string      `firestore:"title"`
 	Description string      `firestore:"description,omitempty"`
 	TechStacks  []TechStack `firestore:"tech_stacks,omitempty"`
+	Photos      []string    `firestore:"photos,omitempty"`
 	UpdatedAt   time.Time   `firestore:"updated_at"`
 	CreatedAt   time.Time   `firestore:"created_at"`
 	DeletedAt   time.Time   `firestore:"deleted_at,omitempty"`
@@ -68,6 +69,7 @@ func (p *Project) BindFromReq(r ProjectRequest) {
 func (p *Project) BindToRes(r *ProjectDTO) {
 	r.ID = p.ID
 	r.Title = p.Title
+	r.Photos = p.Photos
 	r.Description = p.Description
 	r.CreatedAt = p.CreatedAt
 	r.UpdatedAt = p.UpdatedAt

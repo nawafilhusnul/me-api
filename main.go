@@ -3,6 +3,10 @@ package main
 import (
 	"context"
 	"github.com/gin-contrib/cors"
+	"github.com/joho/godotenv"
+	"log"
+	"os"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -37,6 +41,11 @@ func init() {
 // @host http://localhost:8080
 // @BasePath /v1
 func main() {
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatal("Error loading .env file" + err.Error())
+	}
+
 	r := gin.Default()
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"},
@@ -47,7 +56,12 @@ func main() {
 	}))
 	fs := utilsfirebase.FirestoreClient(context.Background())
 	pr := _projectrepo.NewFirestoreProjectRepository(fs)
-	timeoutContext := time.Duration(viper.GetInt("context.timeout")) * time.Second
+
+	timeout, err := strconv.Atoi(os.Getenv("CONTEXT_TIMEOUT"))
+	if err != nil {
+		log.Fatal("Error get context timeout" + err.Error())
+	}
+	timeoutContext := time.Duration(timeout) * time.Second
 	au := _projectusecase.NewProjectUsecase(pr, timeoutContext)
 	_projecthandler.NewProjectHandler(r, au)
 
