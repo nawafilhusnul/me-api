@@ -6,6 +6,7 @@ import (
 	"github.com/joho/godotenv"
 	"log"
 	"os"
+	"path/filepath"
 	"strconv"
 	"time"
 
@@ -32,7 +33,11 @@ import (
 // @host http://localhost:8080
 // @BasePath /v1
 func main() {
-	err := godotenv.Load(".env")
+	pathDir, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = godotenv.Load(filepath.Join(pathDir, ".env"))
 	if err != nil {
 		log.Fatal("Error loading .env file" + err.Error())
 	}
