@@ -14,16 +14,7 @@ import (
 	_projectrepo "github.com/nawafilhusnul/me-dashboard-api/src/project/repository/firestore"
 	_projectusecase "github.com/nawafilhusnul/me-dashboard-api/src/project/usecase"
 	utilsfirebase "github.com/nawafilhusnul/me-dashboard-api/utils/firebase"
-	"github.com/spf13/viper"
 )
-
-func init() {
-	viper.SetConfigFile(`config.json`)
-	err := viper.ReadInConfig()
-	if err != nil {
-		panic(err)
-	}
-}
 
 //
 // @title Me Dashboard API
