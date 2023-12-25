@@ -1,10 +1,7 @@
 package http
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
-	"github.com/nawafilhusnul/me-dashboard-api/global"
 	"github.com/nawafilhusnul/me-dashboard-api/src/domain"
 )
 
@@ -35,25 +32,7 @@ func NewProjectHandler(g *gin.Engine, ps domain.ProjectUsecase) {
 // @Failure 404 {object} domain.MetaResponse
 // @Router /projects [post]
 func (a *ProjectHandler) Create(c *gin.Context) {
-	var req domain.ProjectRequest
 
-	err := c.ShouldBind(&req)
-	if err != nil {
-		c.JSON(http.StatusUnprocessableEntity, domain.MetaResponse{Message: err.Error()})
-		return
-	}
-
-	p := new(domain.Project)
-	p.BindFromReq(req)
-
-	ctx := c.Request.Context()
-	err = a.PUsecase.Create(ctx, p)
-	if err != nil {
-		c.JSON(global.GetStatusCode(err), domain.MetaResponse{Message: err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusCreated, domain.MetaResponse{Message: domain.POSTSuccess})
 }
 
 // @Description update project detail by ID
@@ -67,31 +46,7 @@ func (a *ProjectHandler) Create(c *gin.Context) {
 // @Failure 404 {object} domain.MetaResponse
 // @Router /projects/{id} [put]
 func (a *ProjectHandler) Update(c *gin.Context) {
-	var req domain.ProjectRequest
-	err := c.ShouldBind(&req)
-	if err != nil {
-		c.JSON(http.StatusUnprocessableEntity, domain.MetaResponse{Message: err.Error()})
-		return
-	}
 
-	err = c.ShouldBindUri(&req)
-	if err != nil {
-		c.JSON(http.StatusUnprocessableEntity, domain.MetaResponse{Message: err.Error()})
-		return
-	}
-
-	p := new(domain.Project)
-	p.BindFromReq(req)
-	p.ID = c.Param("id")
-
-	ctx := c.Request.Context()
-	err = a.PUsecase.Update(ctx, p)
-	if err != nil {
-		c.JSON(global.GetStatusCode(err), domain.MetaResponse{Message: err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusCreated, domain.MetaResponse{Message: domain.GETSuccess})
 }
 
 // @Description delete project detail by ID
@@ -104,14 +59,7 @@ func (a *ProjectHandler) Update(c *gin.Context) {
 // @Failure 404 {object} domain.MetaResponse
 // @Router /projects/{id} [delete]
 func (a *ProjectHandler) Delete(c *gin.Context) {
-	id := c.Param("id")
-	ctx := c.Request.Context()
-	err := a.PUsecase.Delete(ctx, id)
-	if err != nil {
-		c.JSON(global.GetStatusCode(err), domain.MetaResponse{Message: err.Error()})
-		return
-	}
-	c.JSON(http.StatusCreated, domain.MetaResponse{Message: domain.DELETESuccess})
+
 }
 
 // @Description create a new project
@@ -123,22 +71,5 @@ func (a *ProjectHandler) Delete(c *gin.Context) {
 // @Failure 404 {object} domain.MetaResponse
 // @Router /projects/ [get]
 func (a *ProjectHandler) Find(c *gin.Context) {
-	ctx := c.Request.Context()
-	pl, err := a.PUsecase.Find(ctx)
-	if err != nil {
-		c.JSON(global.GetStatusCode(err), domain.MetaResponse{Message: err.Error()})
-		return
-	}
 
-	res := make([]domain.ProjectDTO, len(pl))
-	for idx := range pl {
-		pl[idx].BindToRes(&res[idx])
-	}
-
-	c.JSON(http.StatusOK, domain.ProjectListResponse{
-		Meta: domain.MetaResponse{
-			Message: domain.GETSuccess,
-		},
-		Data: res,
-	})
 }
