@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -9,13 +8,22 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/joho/godotenv"
+	log "github.com/sirupsen/logrus"
 
 	"github.com/gin-gonic/gin"
+	"github.com/nawafilhusnul/me-dashboard-api/src/middleware"
 	_projecthandler "github.com/nawafilhusnul/me-dashboard-api/src/project/delivery/http"
 	_projectrepo "github.com/nawafilhusnul/me-dashboard-api/src/project/repository/mysql"
 	_projectusecase "github.com/nawafilhusnul/me-dashboard-api/src/project/usecase"
 	utils "github.com/nawafilhusnul/me-dashboard-api/utils/mysql"
 )
+
+func init() {
+	log.SetLevel(log.InfoLevel)
+	log.SetFormatter(&log.JSONFormatter{
+		PrettyPrint: true,
+	})
+}
 
 //
 // @title Me Dashboard API
@@ -42,7 +50,7 @@ func main() {
 		log.Fatal("Error loading .env file" + err.Error())
 	}
 
-	r := gin.Default()
+	r := gin.New()
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{"PUT", "PATCH", "GET", "POST"},
@@ -50,6 +58,8 @@ func main() {
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 	}))
+
+	r.Use(middleware.LoggingMiddleware())
 
 	gormDb := utils.GormClient()
 	pr := _projectrepo.NewProjectRepository(gormDb)
