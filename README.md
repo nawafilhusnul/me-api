@@ -4,35 +4,52 @@ This is a backend project that consists of services for content management on my
 
 ### Folder Structure
 ```bash
-- src/
-|   |- project/
-|   |   |- delivery/
-|   |   |   |- http/
-|   |   |   |   |- project.go
-|   |   |- usecase/
-|   |   |   |- project.go
-|   |   |   |- project_test.go
-|   |   |- repository/
-|   |   |   |- firestore
-|   |   |   |   |- project.go
-|   |   |   |   |- helper.go
-|   |- domain/
-|   |   |- project.go
-|   |   |- response.go
-|   |   |- error.go
-|   |   |- mocks/
-- docs/
-|   |- public/
-|   |   |- swagger.json
-|   |   |- swagger.yaml
-|   |   |- index.html
-|   |   |- docs.go
-|   |   |- 404.html
-- global/
-|   |- helper.go
-- main.go
-- go.mod
-- README.md
+.
+├── Makefile
+├── README.md
+├── docs
+│   └── public
+│       ├── 404.html
+│       ├── docs.go
+│       ├── index.html
+│       ├── swagger.json
+│       └── swagger.yaml
+├── go.mod
+├── go.sum
+├── main.go
+├── src
+│   ├── domain
+│   │   ├── mocks
+│   │   ├── project.go
+│   │   └── response.go
+│   ├── global
+│   │   ├── constants
+│   │   │   └── api_error.go
+│   │   ├── custom_type
+│   │   │   ├── null_string.go
+│   │   │   └── null_time.go
+│   │   └── helper
+│   │       └── helper.go
+│   ├── middleware
+│   │   └── logging_middleware.go
+│   └── project
+│       ├── delivery
+│       │   └── http
+│       │       └── project.go
+│       ├── repository
+│       │   └── mysql
+│       │       └── project.go
+│       └── usecase
+│           ├── project.go
+│           └── project_test.go
+├── tmp
+│   ├── build-errors.log
+│   └── main
+└── utils
+    └── mysql
+        └── config.go
+
+20 directories, 24 files
 ```
 
 ### Features (To be completed soon)
