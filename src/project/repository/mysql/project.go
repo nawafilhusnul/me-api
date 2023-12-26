@@ -23,7 +23,11 @@ func (pr *projectRepository) First(ctx context.Context, id string) (domain.Proje
 
 func (pr *projectRepository) Find(ctx context.Context) ([]domain.Project, error) {
 	var p = []domain.Project{}
-	// TODO: implementing soon
+	err := pr.conn.Find(&p).Error
+	if err != nil {
+		return p, err
+	}
+
 	return p, nil
 }
 

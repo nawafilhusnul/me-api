@@ -1,0 +1,61 @@
+package customtype
+
+import (
+	"database/sql"
+	"fmt"
+	"reflect"
+	"time"
+)
+
+// NullTime is an alias for mysql.NullTime data type
+type NullTime sql.NullTime
+
+// Scan implements the Scanner interface for NullTime
+func (nt *NullTime) Scan(value interface{}) error {
+	var t sql.NullTime
+	if err := t.Scan(value); err != nil {
+		return err
+	}
+
+	// if nil then make Valid false
+	if reflect.TypeOf(value) == nil {
+		*nt = NullTime{t.Time, false}
+	} else {
+		*nt = NullTime{t.Time, true}
+	}
+
+	return nil
+}
+
+// MarshalJSON for NullTime
+func (nt *NullTime) MarshalJSON() ([]byte, error) {
+	if !nt.Valid {
+		return []byte("null"), nil
+	}
+	val := fmt.Sprintf("\"%s\"", nt.Time.Format(time.RFC3339))
+	return []byte(val), nil
+}
+
+// UnmarshalJSON for NullTime
+func (nt *NullTime) UnmarshalJSON(b []byte) error {
+	s := string(b)
+	// s = Stripchars(s, "\"")
+
+	x, err := time.Parse(time.RFC3339, s)
+	if err != nil {
+		nt.Valid = false
+		return err
+	}
+
+	nt.Time = x
+	nt.Valid = true
+	return nil
+}
+
+func SetNullTime(t time.Time) sql.NullTime {
+	if t.IsZero() {
+		return sql.NullTime{Time: t, Valid: false}
+	}
+
+	return sql.NullTime{Time: t, Valid: true}
+}

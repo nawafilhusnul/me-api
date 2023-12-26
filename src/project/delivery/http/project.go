@@ -72,4 +72,10 @@ func (a *ProjectHandler) Delete(c *gin.Context) {
 // @Router /projects/ [get]
 func (a *ProjectHandler) Find(c *gin.Context) {
 
+	res, err := a.PUsecase.Find(c.Request.Context())
+	if err != nil {
+		c.JSON(500, "error")
+	}
+
+	c.JSON(200, res)
 }

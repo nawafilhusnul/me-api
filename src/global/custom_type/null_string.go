@@ -40,3 +40,11 @@ func (ns *NullString) UnmarshalJSON(b []byte) error {
 	ns.Valid = (err == nil)
 	return err
 }
+
+func SetNullString(s string) sql.NullString {
+	if s == "" {
+		return sql.NullString{String: s, Valid: false}
+	}
+
+	return sql.NullString{String: s, Valid: true}
+}
